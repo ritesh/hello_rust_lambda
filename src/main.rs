@@ -7,6 +7,7 @@ extern crate simple_error;
 
 use simple_error::bail;
 use lambda::error::HandlerError;
+use serde_json::{Map, Value};
 
 
 #[derive(Deserialize, Clone)]
@@ -27,7 +28,7 @@ struct CloudWatchEvent {
     region: String,
     //TODO:
     resources: Vec<String>, 
-    //detail:Map<String, serde_json::Value>,
+    detail: Map<String, Value>,
 }
 
 #[derive(Serialize, Clone)]
@@ -73,6 +74,7 @@ mod tests {
             }
             } "#;
         let event: CloudWatchEvent = serde_json::from_str(cwe).unwrap();
+        println!("detail is: {:?}", event.detail);
         //Ok(());
     }
 }
